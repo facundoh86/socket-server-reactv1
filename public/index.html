@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MiniChat</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-CuOF+2SnTUfTwSZjCXf01h7uYhfOBuxIhGKPbfEJ3+FqH/s6cIFN9bGr1HmAg4fQ" crossorigin="anonymous">
+</head>
+<body class="container">
+
+    <h1 class="mt-5">MiniChat</h1>
+    <hr>
+    <form id="myForm">
+
+        <div class="row">
+            <div class="col-8">
+
+                <input type="text" id="txtMsg" placeholder="Mensaje" class="form-control"/>
+
+            </div>
+
+            <div class="col-4">
+
+                <button  type="submit" class="btn btn-primary">Enviar</button>
+
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col">
+                <ul id="misMensajes" class="mt-2 list-group list-group-flush">
+                    <!-- <li class="list-group-item">Hola</li>
+                    <li class="list-group-item">Chau</li>
+                    <li class="list-group-item">Facundo</li>
+                    <li class="list-group-item">Li</li> -->
+                </ul>
+            </div>
+
+        </div>
+
+    </form>
+ 
+
+
+
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.3/socket.io.js" integrity="sha512-Jr0UIR/Q8MUX+93zjDOhuDUKLqJZObtwpkLJQcR9qMaLgL0thet39IORuavUaZFkZ8a4ktrUsKPM9mf5LWMduA==" crossorigin="anonymous"></script>
+
+        <!-- Instancia de mi socket Server -->
+    <script>
+
+        const socket = io('http://localhost:5000');
+
+        // Referencias al DOM
+
+        const formulario = document.querySelector('#myForm');
+        const texto      = document.querySelector('#misMensajes');
+        const txtmessage = document.querySelector('#txtMsg');
+
+        formulario.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const newMessage = txtmessage.value;
+
+            socket.emit('message-to-server', {texto: newMessage});
+        });
+
+
+        socket.on('message-from-server', ( data ) => {
+
+            texto.innerHTML += `<li class="list-group-item">${ data.texto }</li>`;
+
+        });
+
+
+        // ESCUCHAR EL EVENTO
+        // socket.on('mensaje-bienvenida', ( data ) => {
+
+        //     console.log( data );
+
+        // });
+
+        // EMITIR EL EVENTO DESDE EL CLIENTE
+
+        // setTimeout((  ) => {
+
+        //     socket.emit('mensaje-cliente', {
+
+        //     name: 'Facundo',
+        //     msg: 'Cliente'
+
+        // });
+
+        // }, 2000);
+
+
+    </script>
+</body>
+</html>
