@@ -51,6 +51,7 @@
 
         const socket = io('https://react-server-socket-v1.herokuapp.com/');
 
+       
         // Referencias al DOM
 
         const formulario = document.querySelector('#myForm');
@@ -62,10 +63,13 @@
 
             const newMessage = txtmessage.value;
 
+         
+
+
             socket.emit('message-to-server', {texto: newMessage});
         });
 
-
+       
         socket.on('message-from-server', ( data ) => {
 
             texto.innerHTML += `<li class="list-group-item">${ data.texto }</li>`;
